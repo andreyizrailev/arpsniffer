@@ -3,6 +3,8 @@
 #include <pcap.h>
 #include <netinet/if_ether.h>
 
+#include "mac_vendor.h"
+
 /* Timeout for delivering packets to the app after they arrive to kernel */
 #define PACKET_TIMEOUT_MS 1000
 
@@ -145,8 +147,11 @@ process_packet(u_char *user, const struct pcap_pkthdr *header,
             return;
     }
 
-    printf("Sender MAC: " MAC_FMT "\n", MAC_ARGS(arp_header->arp_sha));
-    printf("Receiver MAC: " MAC_FMT "\n\n", MAC_ARGS(arp_header->arp_tha));
+    printf("Sender's MAC: " MAC_FMT "\n", MAC_ARGS(arp_header->arp_sha));
+    printf("Sender's vendor is %s\n", get_vendor_by_mac(arp_header->arp_sha));
+    printf("Receiver's MAC: " MAC_FMT "\n", MAC_ARGS(arp_header->arp_tha));
+    printf("Receiver's vendor is %s\n\n",
+           get_vendor_by_mac(arp_header->arp_tha));
 }
 
 int
