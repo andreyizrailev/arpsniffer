@@ -45,7 +45,7 @@ get_vendor_by_mac(uint8_t *mac)
 {
     char prefix[PREFIX_LEN + 1]; /* +1 for '\0' */
 
-    snprintf(prefix, PREFIX_LEN, PREFIX_FMT, PREFIX_ARGS(mac));
+    snprintf(prefix, PREFIX_LEN + 1, PREFIX_FMT, PREFIX_ARGS(mac));
 
     if (strcmp(prefix, PREFIX_BROADCAST) == 0)
         return "Broadcast";
