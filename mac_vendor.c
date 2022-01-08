@@ -7,7 +7,6 @@
 #define PREFIX_LEN 8 /* First three octets and to colons */
 #define PREFIX_FMT "%02X:%02X:%02X"
 #define PREFIX_ARGS(_x) _x[0], _x[1], _x[2]
-#define PREFIX_BROADCAST "00:00:00"
 
 #define ARRAY_SIZE(_x) (sizeof(_x) / sizeof(_x[0]))
 
@@ -47,8 +46,5 @@ get_vendor_by_mac(uint8_t *mac)
 
     snprintf(prefix, PREFIX_LEN + 1, PREFIX_FMT, PREFIX_ARGS(mac));
 
-    if (strcmp(prefix, PREFIX_BROADCAST) == 0)
-        return "Broadcast";
-    else
-        return search_oui_for_vendor(prefix);
+    return search_oui_for_vendor(prefix);
 }

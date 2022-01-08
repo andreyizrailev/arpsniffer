@@ -150,8 +150,13 @@ process_packet(u_char *user, const struct pcap_pkthdr *header,
     printf("Sender's MAC: " MAC_FMT "\n", MAC_ARGS(arp_header->arp_sha));
     printf("Sender's vendor is %s\n", get_vendor_by_mac(arp_header->arp_sha));
     printf("Receiver's MAC: " MAC_FMT "\n", MAC_ARGS(arp_header->arp_tha));
-    printf("Receiver's vendor is %s\n\n",
-           get_vendor_by_mac(arp_header->arp_tha));
+    /* Requests has zero receiver's MAC which is falsly recognised as Xerox */
+    if (ntohs(arp_header->arp_op) != ARPOP_REQUEST)
+    {
+        printf("Receiver's vendor is %s\n",
+               get_vendor_by_mac(arp_header->arp_tha));
+    }
+    printf("\n");
 }
 
 int
